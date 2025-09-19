@@ -1,0 +1,67 @@
+# =============================================================
+# Configuration Variables
+# =============================================================
+
+# SSH Key (must be set in the environment)
+ifndef SSH_KEY
+$(error SSH_KEY is not set. Export or set it before running targets.)
+endif
+
+APPLICATION_NAMESPACE := poc-aws-msk
+SERVICE_ACCOUNT_READ  := poc-aws-msk-read
+SERVICE_ACCOUNT_WRITE := poc-aws-msk-write
+
+# Terraform Outputs
+BOOTSTRAP_SERVERS_SASL_IAM	:= $(shell jq -r '.outputs.bootstrap_endpoint.value' ../../base/msk/cluster/terraform.tfstate)
+
+EC2_TOPIC_OWNER_DNS			:= $(shell jq -r '.outputs.public_dns.value' ./topic-owner/terraform.tfstate)
+EC2_PRODUCER_DNS       		:= $(shell jq -r '.outputs.public_dns.value' ./topic-write/terraform.tfstate)
+EC2_CONSUMER_DNS       		:= $(shell jq -r '.outputs.public_dns.value' ./topic-read/terraform.tfstate)
+
+# Default topic and group name (override if needed)
+TOPIC_NAME ?= test-topic
+GROUP_NAME ?= gname
+
+# SSH Command
+SSH_CMD = ssh -i "${SSH_KEY}" ec2-user@
+
+# =============================================================
+# EC2 Targets
+# =============================================================
+
+.PHONY: run-producer run-consumer create-topic \
+        ssh-topic-owner ssh-producer ssh-consumer ssh-msk-console
+
+run-producer:
+	@$(SSH_CMD)"${EC2_PRODUCER_DNS}" \
+		"/opt/kafka/bin/kafka-console-producer.sh \
+		--topic ${TOPIC_NAME} \
+		--bootstrap-server ${BOOTSTRAP_SERVERS_SASL_IAM} \
+		--producer.config /opt/kafka/config/client_sasl_scram.properties"
+
+run-consumer:
+	@$(SSH_CMD)"${EC2_CONSUMER_DNS}" \
+		"/opt/kafka/bin/kafka-console-consumer.sh \
+		--topic ${TOPIC_NAME} \
+		--group ${GROUP_NAME} \
+		--bootstrap-server ${BOOTSTRAP_SERVERS_SASL_IAM} \
+		--consumer.config /opt/kafka/config/client_sasl_scram.properties"
+
+create-topic:
+	@$(SSH_CMD)"${EC2_TOPIC_OWNER_DNS}" \
+		"/opt/kafka/bin/kafka-topics.sh \
+		--create \
+		--topic ${TOPIC_NAME} \
+		--partitions 2 \
+		--replication-factor 3 \
+		--bootstrap-server ${BOOTSTRAP_SERVERS_SASL_IAM}"
+
+# SSH Shortcuts
+ssh-topic-owner:
+	$(SSH_CMD)"${EC2_TOPIC_OWNER_DNS}"
+
+ssh-producer:
+	@$(SSH_CMD)"${EC2_PRODUCER_DNS}"
+
+ssh-consumer:
+	@$(SSH_CMD)"${EC2_CONSUMER_DNS}"
