@@ -1,5 +1,5 @@
 module "ec2_instance" {
-  source            = "../../../../modules/aws/ec2/kafka-client"
+  source            = "/poc-msk/iac/modules/aws/ec2/kafka-client"
 
   instance_type     = "t3.small"
   role_name         = data.terraform_remote_state.role.outputs.name

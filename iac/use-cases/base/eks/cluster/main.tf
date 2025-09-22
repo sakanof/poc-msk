@@ -1,5 +1,5 @@
 module "eks_cluster" {
-  source            = "../../../../modules/aws/eks/cluster"
+  source            = "/poc-msk/iac/modules/aws/eks/cluster"
 
   eks_version       = var.eks_version
   eks_cluster_name  = var.eks_cluster_name

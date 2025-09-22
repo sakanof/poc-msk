@@ -1,5 +1,5 @@
 module "read" {
-  source        = "../../../../../modules/aws/msk/iam/permission-policies/topic-read"
+  source        = "/poc-msk/iac/modules/aws/msk/iam/permission-policies/topic-read"
 
   aws_region    = var.aws_region
   aws_account   = var.aws_account

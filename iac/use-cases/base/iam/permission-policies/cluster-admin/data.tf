@@ -1,6 +1,6 @@
 data "terraform_remote_state" "msk" {
   backend = "local"
   config = {
-    path = "../../../msk/cluster/terraform.tfstate"
+    path = "/poc-msk/iac/use-cases/base/msk/cluster/terraform.tfstate"
   }
 }

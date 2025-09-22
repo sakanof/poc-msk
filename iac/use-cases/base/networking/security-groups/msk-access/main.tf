@@ -1,12 +1,12 @@
 data "terraform_remote_state" "vpc" {
   backend = "local"
   config = {
-    path = "../../vpc/terraform.tfstate"
+    path = "/poc-msk/iac/use-cases/base/networking/vpc/terraform.tfstate"
   }
 }
 
 module "msk" {
-  source                = "../../../../../modules/aws/networking/security-group"
+  source                = "/poc-msk/iac/modules/aws/networking/security-group"
 
   name                  = "msk-access-iam-sg"
   vpc_id                = data.terraform_remote_state.vpc.outputs.vpc_id

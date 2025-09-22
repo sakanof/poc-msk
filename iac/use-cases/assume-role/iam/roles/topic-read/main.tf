@@ -3,7 +3,7 @@ locals {
 }
 
 module "topic_read_role" {
-  source              = "../../../../../modules/aws/msk/iam/assume-role"
+  source              = "/poc-msk/iac/modules/aws/msk/iam/assume-role"
 
   custom_name         = "bla-read"
   #custom_name         = "${local.topic_name}-read"

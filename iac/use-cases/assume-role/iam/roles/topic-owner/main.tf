@@ -3,7 +3,7 @@ locals {
 }
 
 module "topic_topic_owner_role" {
-  source              = "../../../../../modules/aws/msk/iam/assume-role"
+  source              = "/poc-msk/iac/modules/aws/msk/iam/assume-role"
 
   custom_name         = "${local.topic_name}-topic_owner"
   service_identifiers = ["ec2.amazonaws.com"]

@@ -1,5 +1,5 @@
 module "msk_cluster" {
-  source                            = "../../../../modules/aws/msk/cluster"
+  source                            = "/poc-msk/iac/modules/aws/msk/cluster"
 
   cluster_name                      = var.project_name
 

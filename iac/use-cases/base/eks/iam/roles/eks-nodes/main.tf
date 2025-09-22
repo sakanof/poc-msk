@@ -1,5 +1,5 @@
 module "eks_cluster_node_role" {
-  source                = "../../../../../../modules/aws/eks/iam/eks-nodes"
+  source                = "/poc-msk/iac/modules/aws/eks/iam/eks-nodes"
 
   aws_account   = var.aws_account
   aws_region    = var.aws_region

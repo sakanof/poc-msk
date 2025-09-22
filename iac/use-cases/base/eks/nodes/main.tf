@@ -1,5 +1,5 @@
 module "eks_nodes" {
-  source        = "../../../../modules/aws/eks/nodes"
+  source        = "/poc-msk/iac/modules/aws/eks/nodes"
 
   eks_version   = var.eks_version
   name          = data.terraform_remote_state.eks_cluster.outputs.cluster_name

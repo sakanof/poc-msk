@@ -1,5 +1,5 @@
 module "vpc" {
-  source     = "../../../../modules/aws/networking/vpc"
+  source     = "/poc-msk/iac/modules/aws/networking/vpc"
 
   vpc_name                = "poc-aws-msk"
   eks_name                = "poc-aws-msk"

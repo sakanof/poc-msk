@@ -1,5 +1,5 @@
 module "policy" {
-  source        = "../../../../../modules/aws/msk/iam/permission-policies/topic-owner"
+  source        = "/poc-msk/iac/modules/aws/msk/iam/permission-policies/topic-owner"
 
   aws_region    = var.aws_region
   aws_account   = var.aws_account

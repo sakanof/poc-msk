@@ -1,11 +1,16 @@
 OUTPUT_PLAN_FILENAME=plan.tfplan
 
+RELATIVE_PATH  := $(shell git rev-parse --show-prefix)
+
 TERRAFORM_IMAGE=hashicorp/terraform:latest
-TERRAFORM_CMD=docker run -it 						\
-		  -v ${PWD}:/terraform 						\
-		  -w "/terraform" 							\
+TERRAFORM_CMD=docker run -it 							\
+		  -e TF_VAR_aws_profile=${TF_VAR_aws_profile}	\
+		  -e TF_VAR_aws_account=${TF_VAR_aws_account}	\
+		  -e TF_VAR_aws_region=${TF_VAR_aws_region}		\
+		  -v "${HOME}/.aws:/root/.aws:ro" 				\
+		  -v ${IAC_DIR}:/poc-msk/iac 					\
+		  -w "/poc-msk/${RELATIVE_PATH}"				\
 		  ${TERRAFORM_IMAGE}
-TERRAFORM_CMD=terraform
 
 .PHONY: all
 all: init plan apply
