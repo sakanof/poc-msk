@@ -12,8 +12,9 @@ SERVICE_ACCOUNT_READ  := poc-aws-msk-read
 SERVICE_ACCOUNT_WRITE := poc-aws-msk-write
 
 # Terraform Outputs
-BOOTSTRAP_SERVERS_SASL_IAM	:= $(shell jq -r '.outputs.bootstrap_endpoint.value' ../../base/msk/cluster/terraform.tfstate)
+BOOTSTRAP_SERVERS_SASL_IAM	:= $(shell jq -r '.outputs.bootstrap_brokers_sasl_iam.value' ../../base/msk/cluster/terraform.tfstate)
 
+EC2_MSK_MONITORING_DNS		:= $(shell jq -r '.outputs.public_dns.value' ./msk-monitoring/terraform.tfstate)
 EC2_TOPIC_OWNER_DNS			:= $(shell jq -r '.outputs.public_dns.value' ./topic-owner/terraform.tfstate)
 EC2_PRODUCER_DNS       		:= $(shell jq -r '.outputs.public_dns.value' ./topic-write/terraform.tfstate)
 EC2_CONSUMER_DNS       		:= $(shell jq -r '.outputs.public_dns.value' ./topic-read/terraform.tfstate)
@@ -57,6 +58,9 @@ create-topic:
 		--bootstrap-server ${BOOTSTRAP_SERVERS_SASL_IAM}"
 
 # SSH Shortcuts
+ssh-msk-monitoring:
+	$(SSH_CMD)"${EC2_MSK_MONITORING_DNS}"
+
 ssh-topic-owner:
 	$(SSH_CMD)"${EC2_TOPIC_OWNER_DNS}"
 
