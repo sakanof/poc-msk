@@ -23,10 +23,10 @@ data "template_file" "user_data" {
 
     echo "export KAFKA_OPTS=\"-Xms512m -Xmx1g\"" >> /home/ec2-user/.bash_profile
 
-    echo "export var.bootstrap_serverS_SASL_IAM=${var.bootstrap_server}" >> /home/ec2-user/.bash_profile
+    echo "export BOOTSTRAP_SERVER=${var.bootstrap_server}" >> /home/ec2-user/.bash_profile
     echo "export CLASSPATH=\"/opt/kafka/libs/\"" >> /home/ec2-user/.bash_profile
-        echo "alias create_topic=\"/opt/kafka/bin/kafka-topics.sh --create --topic ${var.topic_name} --partitions 2 --replication-factor 3 --bootstrap-server ${var.bootstrap_server}\"" >> /home/ec2-user/.bash_profile
-        echo "alias list_topics=\"/opt/kafka/bin/kafka-topics.sh --list --bootstrap-server ${var.bootstrap_server}\"" >> /home/ec2-user/.bash_profile
+        echo "alias create_topic=\"/opt/kafka/bin/kafka-topics.sh --create --topic ${var.topic_name} --partitions 2 --replication-factor 3 --bootstrap-server ${var.bootstrap_server} --command-config /opt/kafka/config/client_sasl_iam.properties\"" >> /home/ec2-user/.bash_profile
+        echo "alias list_topics=\"/opt/kafka/bin/kafka-topics.sh --list --bootstrap-server ${var.bootstrap_server} --command-config /opt/kafka/config/client_sasl_iam.properties\"" >> /home/ec2-user/.bash_profile
         echo "alias start_consumer=\"/opt/kafka/bin/kafka-console-consumer.sh --topic ${var.topic_name} --group ${var.group_name} --bootstrap-server ${var.bootstrap_server} --consumer.config /opt/kafka/config/client_sasl_iam.properties\"" >> /home/ec2-user/.bash_profile
         echo "alias start_producer=\"/opt/kafka/bin/kafka-console-producer.sh --topic ${var.topic_name} --bootstrap-server ${var.bootstrap_server} --producer.config /opt/kafka/config/client_sasl_iam.properties\"" >> /home/ec2-user/.bash_profile
   EOF
