@@ -1,0 +1,6 @@
+export SSH_KEY=
+export IAC_DIR=
+
+export TF_VAR_aws_profile=
+export TF_VAR_aws_account=
+export TF_VAR_aws_region=
