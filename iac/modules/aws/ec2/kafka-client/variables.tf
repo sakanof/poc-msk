@@ -4,6 +4,16 @@ variable "instance_type" {
   description   = "EC2 Tnstance Type (default: t2.micro)"
 }
 
+variable "aws_region" {
+  type          = string
+  description   = "AWS Region."
+}
+
+variable "role_arn" {
+  type          = string
+  description   = "Role ARN."
+}
+
 variable "role_name" {
   type          = string
   description   = "Role Name."
