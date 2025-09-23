@@ -19,6 +19,20 @@ data "terraform_remote_state" "msk_sg" {
   }
 }
 
+data "terraform_remote_state" "msk_akhq_monitoring_sg" {
+  backend = "local"
+  config = {
+    path = "/poc-msk/iac/use-cases/base/networking/security-groups/msk-akhq-monitoring/terraform.tfstate"
+  }
+}
+
+data "terraform_remote_state" "msk_redpanda_monitoring_sg" {
+  backend = "local"
+  config = {
+    path = "/poc-msk/iac/use-cases/base/networking/security-groups/msk-redpanda-monitoring/terraform.tfstate"
+  }
+}
+
 data "terraform_remote_state" "cluster" {
   backend = "local"
   config = {
