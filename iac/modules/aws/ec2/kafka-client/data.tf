@@ -15,6 +15,11 @@ data "template_file" "user_data" {
     sudo usermod -aG docker $USER
     sudo usermod -aG docker-compose $USER
 
+    # install terraform
+    sudo yum install -y yum-utils
+    sudo yum-config-manager --add-repo https://rpm.releases.hashicorp.com/AmazonLinux/hashicorp.repo
+    sudo yum install -y terraform
+
     cd /opt
 
     # Get kafka binaries
