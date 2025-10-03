@@ -1,0 +1,32 @@
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": [
+                "kafka:CreateTopic",
+                "kafka:DescribeTopic",
+                "kafka:DeleteTopic",
+                "kafka:AlterTopic"
+            ],
+            "Resource": "arn:aws:kafka:*:*:topic/*"
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "kafka:DescribeCluster",
+                "kafka:GetBootstrapBrokers"
+            ],
+            "Resource": "arn:aws:kafka:*:*:cluster/*"
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "msk:DescribeCluster",
+                "msk:GetBootstrapBrokers",
+                "msk:ListNodes"
+            ],
+            "Resource": "*"
+        }
+    ]
+}
