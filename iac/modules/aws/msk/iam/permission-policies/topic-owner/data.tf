@@ -1,5 +1,27 @@
 data "aws_iam_policy_document" "resource_owner" {
   statement {
+    sid     = "AllowMskDescribeAndBootstrap"
+    effect  = "Allow"
+    actions = [
+      "kafka:DescribeCluster",
+      "kafka:DescribeClusterV2",
+      "kafka:ListNodes",
+      "kafka:GetBootstrapBrokers",
+    ]
+    resources = ["*"]
+  }
+
+  statement {
+    sid     = "AllowMskListClusters"
+    effect  = "Allow"
+    actions = [
+      "kafka:ListClusters",
+      "kafka:ListClustersV2",
+    ]
+    resources = ["*"]
+  }
+
+  statement {
     effect = "Allow"
     actions = [
       "kafka-cluster:Connect",
